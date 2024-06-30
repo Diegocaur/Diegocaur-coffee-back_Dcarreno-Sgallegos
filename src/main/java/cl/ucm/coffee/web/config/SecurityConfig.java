@@ -34,9 +34,16 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/coffee").hasAnyRole("ADMIN", "CUSTOMER")
-                .requestMatchers(HttpMethod.GET, "/api/coffee/**").hasAnyRole("ADMIN", "CUSTOMER")
-                .requestMatchers(HttpMethod.POST, "/api/coffee/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/coffee/**").permitAll()
+
+                //Metodos para el ADMIN con Coffee)
+                .requestMatchers(HttpMethod.POST, "/api/coffee/crear").hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.GET, "/api/coffee/coffename").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/coffee/actualizar").hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.DELETE, "/api/coffee/borrar").hasRole("ADMIN")
+
                 .anyRequest()
                 .authenticated()
                 .and()
