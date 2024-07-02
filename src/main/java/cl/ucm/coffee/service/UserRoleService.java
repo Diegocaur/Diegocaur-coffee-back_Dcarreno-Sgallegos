@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+
 @Service
 public class UserRoleService implements IUserRoleService{
 
@@ -50,4 +51,17 @@ public class UserRoleService implements IUserRoleService{
     public UserEntity actualizarUsuario(UserDTO userDTO) {
         return null;
     }
+
+    @Override
+    public UserEntity findByUsername(String username) {
+        return userRepository.findById(username).orElse(null);
+    }
+
+    @Override
+    public boolean existByUsername(String username) {
+        return userRepository.existsById(username);
+    }
+
+
 }
+

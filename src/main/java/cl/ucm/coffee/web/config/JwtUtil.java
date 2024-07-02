@@ -6,6 +6,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -13,12 +14,13 @@ public class JwtUtil {
     private static String SECRET_KEY = "Ucm-c0ff33";
     private static Algorithm ALGORITHM = Algorithm.HMAC256(SECRET_KEY);
 
-    public String create(String username) {
+    public String create(String username, List<String> rol) {
         return JWT.create()
                 .withSubject(username)
                 .withIssuer("ucm-coffee")
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(15)))
+                .withClaim("rol", rol)
                 .sign(ALGORITHM);
     }
 
@@ -39,4 +41,5 @@ public class JwtUtil {
                 .verify(jwt)
                 .getSubject();
     }
+
 }

@@ -34,7 +34,8 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**").permitAll()
-
+                .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/api/auth/update").permitAll()
 
                 //Metodos para el Coffee)
                 .requestMatchers(HttpMethod.GET, "/api/coffee/**").permitAll()
