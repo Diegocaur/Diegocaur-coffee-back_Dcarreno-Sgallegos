@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/api/auth/update").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/api/auth/update").hasRole("CLIENT")
 
                 //Metodos para el Coffee)
                 .requestMatchers(HttpMethod.GET, "/api/coffee/**").permitAll()

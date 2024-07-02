@@ -27,7 +27,7 @@ public class UserRoleService implements IUserRoleService{
 
 
     @Override
-    public UserEntity crearUsuario(UserDTO userDTO) {
+    public UserDTO crearUsuario(UserDTO userDTO) {
 
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(userDTO.getUsername());
@@ -44,12 +44,18 @@ public class UserRoleService implements IUserRoleService{
         userRepository.save(userEntity);
         useRoleRepository.save(userRoleEntity);
 
-        return userEntity;
+        return userDTO;
     }
 
     @Override
-    public UserEntity actualizarUsuario(UserDTO userDTO) {
-        return null;
+    public UserDTO actualizarUsuario(UserDTO userDTO) {
+        UserEntity userEntity = userRepository.findById(userDTO.getUsername())
+                .orElseThrow(()->new RuntimeException("El usuario no existe"));
+        userEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        userEntity.setEmail(userDTO.getEmail());
+        userRepository.save(userEntity);
+
+        return userDTO;
     }
 
     @Override

@@ -63,11 +63,22 @@ public class AuthController {
         }
         try {
             userDTO.setRole("CLIENT");
-            UserEntity registrar = userRoleService.crearUsuario(userDTO);
+            UserDTO registrar = userRoleService.crearUsuario(userDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(registrar);
         }catch (Exception e){
             return ResponseEntity.status(500).body("error al registrar usuario:"+ e.getMessage());
         }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> actualizarUsuario(@RequestBody UserDTO userDTO){
+        try {
+            UserDTO actualizarUsuario =userRoleService.actualizarUsuario(userDTO);
+            return ResponseEntity.ok(actualizarUsuario);
+        }catch (Exception e){
+            return ResponseEntity.status(500).body("Ocurrio un error al intentar actualizar los datos: "+ e.getMessage());
+        }
+
     }
 
     @PutMapping("/block")
