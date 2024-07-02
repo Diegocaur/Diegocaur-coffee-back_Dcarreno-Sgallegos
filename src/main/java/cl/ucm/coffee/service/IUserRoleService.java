@@ -8,4 +8,7 @@ public interface IUserRoleService {
     UserEntity actualizarUsuario(UserDTO userDTO);
     UserEntity findByUsername(String username);
     boolean existByUsername(String username);
+
+    void blockuser(String username);
+    void undoUserBlock(String username);
 }

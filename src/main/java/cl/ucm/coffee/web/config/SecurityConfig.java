@@ -43,7 +43,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/coffee/coffename").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/coffee/actualizar").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/coffee/borrar").hasRole("ADMIN")
-
+                .requestMatchers(HttpMethod.PUT, "/api/auth/block").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/auth/unlock").hasRole("ADMIN")
                 //Metodos para los Testimonios
                 .requestMatchers(HttpMethod.POST, "/api/testimonial/crear").hasRole("CLIENT")
                 .requestMatchers(HttpMethod.GET, "/api/testimonial/coffeeid").permitAll()

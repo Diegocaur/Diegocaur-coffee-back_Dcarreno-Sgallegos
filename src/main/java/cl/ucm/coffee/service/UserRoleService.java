@@ -62,6 +62,20 @@ public class UserRoleService implements IUserRoleService{
         return userRepository.existsById(username);
     }
 
+    @Override
+    public void blockuser(String username) {
+        UserEntity userEntity = userRepository.findById(username).orElseThrow(()-> new RuntimeException("No existe ese usuario"));
+        userEntity.setLocked(true);
+        userRepository.save(userEntity);
+    }
+
+    @Override
+    public void undoUserBlock(String username) {
+        UserEntity userEntity = userRepository.findById(username).orElseThrow(()-> new RuntimeException("No existe ese usuario"));
+        userEntity.setLocked(false);
+        userRepository.save(userEntity);
+    }
+
 
 }
 

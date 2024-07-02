@@ -70,6 +70,29 @@ public class AuthController {
         }
     }
 
+    @PutMapping("/block")
+    public ResponseEntity<?> blockUser(@RequestParam String username){
+        try {
+            userRoleService.blockuser(username);
+            return ResponseEntity.ok("Usuario " + username + " bloqueado");
+        }catch (Exception e){
+            return ResponseEntity.status(500).body("error al intentar blockear usuario: "+ e.getMessage());
+        }
+
+    }
+
+    @PutMapping("/unlock")
+    public ResponseEntity<?> undoUserBlock(@RequestParam String username){
+        try {
+            userRoleService.undoUserBlock(username);
+            return ResponseEntity.ok("Usuario "+ username + " Desbloqueado");
+        }catch (Exception e){
+            return ResponseEntity.status(500).body("Error al intentar desbloquear a usuario: "+ e.getMessage());
+        }
+    }
+
+
+
 
 
 }
