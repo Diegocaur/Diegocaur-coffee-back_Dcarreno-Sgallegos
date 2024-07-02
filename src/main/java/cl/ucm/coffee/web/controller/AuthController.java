@@ -1,9 +1,13 @@
 package cl.ucm.coffee.web.controller;
 
+import cl.ucm.coffee.persitence.entity.UserEntity;
+import cl.ucm.coffee.service.IUserRoleService;
 import cl.ucm.coffee.service.dto.LoginDto;
+import cl.ucm.coffee.service.dto.UserDTO;
 import cl.ucm.coffee.web.config.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +27,9 @@ public class AuthController {
     private  AuthenticationManager authenticationManager;
     @Autowired
     private  JwtUtil jwtUtil;
+
+    @Autowired
+    private IUserRoleService userRoleService;
 
 //    @Autowired
 //    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
@@ -44,4 +51,22 @@ public class AuthController {
         return ResponseEntity.ok(map);
         //return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, jwt).build();
     }
+
+
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody UserDTO userDTO){
+
+        try {
+            userDTO.setRole("CLIENT");
+            UserEntity registrar = userRoleService.crearUsuario(userDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(registrar);
+        }catch (Exception e){
+            return ResponseEntity.status(500).body("error al registrar usuario:"+ e.getMessage());
+        }
+    }
+
+
+
+
 }
