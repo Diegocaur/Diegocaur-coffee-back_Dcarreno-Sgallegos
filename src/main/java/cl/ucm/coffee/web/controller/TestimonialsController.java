@@ -4,6 +4,7 @@ package cl.ucm.coffee.web.controller;
 import cl.ucm.coffee.persitence.entity.TestimonialsEntity;
 import cl.ucm.coffee.service.ITestimonialsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +17,6 @@ public class TestimonialsController {
     private ITestimonialsService testimonialsService;
 
 
-    @PostMapping("/cre")
-    public ResponseEntity<?> crear(@RequestBody TestimonialsEntity testimonial){
-        try {
-            TestimonialsEntity crearTestimonial =testimonialsService.createTestimonial(testimonial);
-            return ResponseEntity.ok(crearTestimonial);
-        } catch (Exception e){
-            return ResponseEntity.status(500).body("No se pudo crear testimonio por:" + e.getMessage());
-        }
-    }
     @PostMapping("/crear")
     public ResponseEntity<?> crearse(
             @RequestParam("username") String username,
@@ -39,7 +31,7 @@ public class TestimonialsController {
             TestimonialsEntity createdTestimonial = testimonialsService.createTestimonial(testimonialEntity);
             return ResponseEntity.ok(createdTestimonial);
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("No se pudo crear testimonio por:" + e.getMessage());
+            return ResponseEntity.status(500).body("No se pudo crear testimonio :" + e.getMessage());
         }
     }
 
@@ -52,7 +44,7 @@ public class TestimonialsController {
             return ResponseEntity.ok(testimonio);
 
         }catch (Exception e){
-            return  ResponseEntity.status(500).body("No se encontró testimonio de algun caffe con ese ID:"+ e.getMessage());
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró testimonio de algun caffe con ese ID: "+ e.getMessage());
         }
     }
 

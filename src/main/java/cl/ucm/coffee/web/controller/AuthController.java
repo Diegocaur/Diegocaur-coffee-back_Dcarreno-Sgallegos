@@ -39,22 +39,26 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
-        UsernamePasswordAuthenticationToken login = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
-        Authentication authentication = this.authenticationManager.authenticate(login);
 
-        UserEntity userEntity = userRoleService.findByUsername(loginDto.getUsername());
-        List<String> rol = userEntity.getRoles().stream().map(UserRoleEntity::getRole).collect(Collectors.toList());
+        try {
+            UsernamePasswordAuthenticationToken login = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+            Authentication authentication = this.authenticationManager.authenticate(login);
+
+            UserEntity userEntity = userRoleService.findByUsername(loginDto.getUsername());
+            List<String> rol = userEntity.getRoles().stream().map(UserRoleEntity::getRole).collect(Collectors.toList());
 
 
-        String jwt = this.jwtUtil.create(loginDto.getUsername(), rol);
-        Map<String, String> map = new HashMap<>();
-        map.put("token",jwt);
+            String jwt = this.jwtUtil.create(loginDto.getUsername(), rol);
+            Map<String, String> map = new HashMap<>();
+            map.put("token",jwt);
 
-        return ResponseEntity.ok(map);
+            return ResponseEntity.ok(map);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al intentar iniciar sesion " + e.getMessage());
+        }
+
 
     }
-
-
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserDTO userDTO){
@@ -76,7 +80,7 @@ public class AuthController {
             UserDTO actualizarUsuario =userRoleService.actualizarUsuario(userDTO);
             return ResponseEntity.ok(actualizarUsuario);
         }catch (Exception e){
-            return ResponseEntity.status(500).body("Ocurrio un error al intentar actualizar los datos: "+ e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ocurrio un error al intentar actualizar los datos: "+ e.getMessage());
         }
 
     }
@@ -87,7 +91,7 @@ public class AuthController {
             userRoleService.blockuser(username);
             return ResponseEntity.ok("Usuario " + username + " bloqueado");
         }catch (Exception e){
-            return ResponseEntity.status(500).body("error al intentar blockear usuario: "+ e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("error al intentar blockear usuario: "+ e.getMessage());
         }
 
     }
@@ -98,13 +102,18 @@ public class AuthController {
             userRoleService.undoUserBlock(username);
             return ResponseEntity.ok("Usuario "+ username + " Desbloqueado");
         }catch (Exception e){
-            return ResponseEntity.status(500).body("Error al intentar desbloquear a usuario: "+ e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al intentar desbloquear a usuario: "+ e.getMessage());
         }
     }
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        return ResponseEntity.ok("Logout queda por parte del cliente: " + token);
+        try {
+            return ResponseEntity.ok("Logout queda por parte del cliente: " + token);
+        }catch (Exception e){
+            return ResponseEntity.status(500).body("Error en la peticion " + e.getMessage());
+        }
+
     }
 
 

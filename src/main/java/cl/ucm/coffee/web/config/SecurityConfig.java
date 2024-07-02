@@ -37,7 +37,7 @@ public class SecurityConfig {
 
 
                 //Metodos para el Coffee
-                .requestMatchers(HttpMethod.GET, "/api/coffee/listacofes").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/coffee/listacoffees").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/coffee/coffename").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/coffee/crear").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/coffee/actualizar").hasRole("ADMIN")

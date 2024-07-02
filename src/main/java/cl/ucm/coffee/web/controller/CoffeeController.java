@@ -4,6 +4,7 @@ package cl.ucm.coffee.web.controller;
 import cl.ucm.coffee.persitence.entity.CoffeeEntity;
 import cl.ucm.coffee.service.ICoffeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +36,7 @@ public class CoffeeController {
             CoffeeEntity crearCoffee =coffeeService.createCoffee(coffeeEntity);
             return ResponseEntity.ok(crearCoffee);
         }catch (Exception e){
-            return ResponseEntity.status(500).body("Error al crear café:"+ e.getMessage());
+            return ResponseEntity.status(500).body("Error al crear café: "+ e.getMessage());
         }
     }
 
@@ -47,17 +48,17 @@ public class CoffeeController {
             List<CoffeeEntity> coffesName = coffeeService.findByName(name);
             return ResponseEntity.ok(coffesName);
         }catch (Exception e){
-            return ResponseEntity.status(500).body("Error buscando por nombre:"+ e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error buscando por nombre: "+ e.getMessage());
         }
     }
 
-    @GetMapping("listacoffes")
+    @GetMapping("/listacoffees")
     public ResponseEntity<List<CoffeeEntity>> listcoffee(){
         try {
             List<CoffeeEntity> listacoffes = coffeeService.listCoffee();
             return ResponseEntity.ok(listacoffes);
         }catch (Exception e){
-            return ResponseEntity.status(500).body(Collections.emptyList());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
         }
     }
 
@@ -80,7 +81,7 @@ public class CoffeeController {
         Optional<CoffeeEntity> actualizado =coffeeService.updateCoffee(idCoffe, actualizarCoffe);
         return ResponseEntity.ok(actualizado.isPresent() ? actualizado.get(): "No existe cafe con ese id");
     }catch (Exception e){
-        return ResponseEntity.status(500).body("Error al actualizar por:"+ e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al actualizar :"+ e.getMessage());
     }
     }
 
@@ -91,7 +92,7 @@ public class CoffeeController {
             coffeeService.deleteCoffeeById(id);
             return ResponseEntity.ok("eliminado con exito");
         }catch (Exception e){
-            return ResponseEntity.status(500).body("Error al eliminar cafe:"+ e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al eliminar cafe: "+ e.getMessage());
         }
 
     }
