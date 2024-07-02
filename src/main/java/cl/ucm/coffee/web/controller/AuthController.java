@@ -102,6 +102,12 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return ResponseEntity.ok("Logout queda por parte del cliente: " + token);
+    }
+
+
 
 
 

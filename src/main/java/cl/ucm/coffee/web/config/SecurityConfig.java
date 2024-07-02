@@ -34,17 +34,20 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/api/auth/update").hasRole("CLIENT")
 
-                //Metodos para el Coffee)
-                .requestMatchers(HttpMethod.GET, "/api/coffee/**").permitAll()
+
+                //Metodos para el Coffee
+                .requestMatchers(HttpMethod.GET, "/api/coffee/listacofes").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/coffee/coffename").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/coffee/crear").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/api/coffee/coffename").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/coffee/actualizar").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/coffee/borrar").hasRole("ADMIN")
+                //Metods Auth
                 .requestMatchers(HttpMethod.PUT, "/api/auth/block").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/auth/unlock").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/api/auth/update").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/auth/logout").permitAll()
                 //Metodos para los Testimonios
                 .requestMatchers(HttpMethod.POST, "/api/testimonial/crear").hasRole("CLIENT")
                 .requestMatchers(HttpMethod.GET, "/api/testimonial/coffeeid").permitAll()
