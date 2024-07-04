@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +67,8 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Ya existe un usuario con ese nombre");
         }
         try {
+            userDTO.setDisabled(false);
+            userDTO.setLocked(false);
             userDTO.setRole("CLIENT");
             UserDTO registrar = userRoleService.crearUsuario(userDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(registrar);
@@ -113,12 +116,19 @@ public class AuthController {
         }catch (Exception e){
             return ResponseEntity.status(500).body("Error en la peticion " + e.getMessage());
         }
-
     }
 
+    //Mostrar clientes
+    @GetMapping("/clientes")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        try {
+            List<UserDTO> listaUsuarios = userRoleService.getAllUsers();
+            return ResponseEntity.ok(listaUsuarios);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
+        }
 
-
-
+    }
 
 
 }

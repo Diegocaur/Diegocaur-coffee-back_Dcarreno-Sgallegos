@@ -97,17 +97,4 @@ public class CoffeeController {
 
     }
 
-    @GetMapping("")
-    public ResponseEntity<Map<String, String>> coffes(){
-        Map map = new HashMap();
-        map.put("coffee", "Coffees :Get)");
-        return ResponseEntity.ok(map);
-    }
-    @PostMapping("/save")
-    public ResponseEntity<Map<String, String>> coffe(){
-        Map map = new HashMap();
-        map.put("coffee", "Coffees Post:)");
-        return ResponseEntity.ok(map);
-    }
-
 }

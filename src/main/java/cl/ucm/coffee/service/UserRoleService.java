@@ -11,7 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserRoleService implements IUserRoleService{
@@ -83,5 +84,31 @@ public class UserRoleService implements IUserRoleService{
     }
 
 
+
+
+    //extra para tabla clientes
+    @Override
+    public List<UserDTO> getAllUsers() {
+        List<UserEntity> users = userRepository.findAll();
+
+        List<UserEntity> clientUsers = users.stream()
+                .filter(user -> user.getRoles().stream()
+                        .anyMatch(role -> "CLIENT".equals(role.getRole())))  // Filtrar por rol de cliente
+                .collect(Collectors.toList());
+        // Convertir UserEntity a UserDTO
+        return clientUsers.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    private UserDTO convertToDto(UserEntity userEntity) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(userEntity.getUsername());
+        userDTO.setEmail(userEntity.getEmail());
+        userDTO.setLocked(userEntity.getLocked());
+        userDTO.setDisabled(userEntity.getDisabled());
+        userDTO.setRoles(userEntity.getRoles().stream().map(UserRoleEntity::getRole).collect(Collectors.toList()));
+        return userDTO;
+    }
 }
 

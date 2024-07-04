@@ -3,6 +3,8 @@ package cl.ucm.coffee.service;
 import cl.ucm.coffee.persitence.entity.UserEntity;
 import cl.ucm.coffee.service.dto.UserDTO;
 
+import java.util.List;
+
 public interface IUserRoleService {
     UserDTO crearUsuario(UserDTO userDTO);
     UserDTO actualizarUsuario(UserDTO userDTO);
@@ -11,4 +13,10 @@ public interface IUserRoleService {
 
     void blockuser(String username);
     void undoUserBlock(String username);
+
+
+    //Para extra de tabla clientes
+    List<UserDTO> getAllUsers();
+
+
 }

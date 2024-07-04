@@ -45,6 +45,7 @@ public class SecurityConfig {
                 //Metods Auth
                 .requestMatchers(HttpMethod.PUT, "/api/auth/block").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/auth/unlock").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/auth/clientes").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/api/auth/update").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth/logout").permitAll()
