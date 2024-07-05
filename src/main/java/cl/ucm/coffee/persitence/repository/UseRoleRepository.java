@@ -4,7 +4,9 @@ import cl.ucm.coffee.persitence.entity.UserRoleEntity;
 import cl.ucm.coffee.persitence.entity.UserRoleId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
 
 
 public interface UseRoleRepository extends JpaRepository<UserRoleEntity, UserRoleId> {
+    Optional<UserRoleEntity> findByUsernameAndRole(String username, String role);
 }

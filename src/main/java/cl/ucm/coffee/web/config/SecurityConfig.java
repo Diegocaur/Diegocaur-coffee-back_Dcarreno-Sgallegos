@@ -50,7 +50,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/auth/update").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth/logout").permitAll()
                 //Metodos para los Testimonios
-                .requestMatchers(HttpMethod.POST, "/api/testimonial/crear").hasRole("CLIENT")
+                .requestMatchers(HttpMethod.POST, "/api/testimonial/crear").hasAnyRole("ADMIN", "CLIENT")
                 .requestMatchers(HttpMethod.GET, "/api/testimonial/coffeeid").permitAll()
 
                 .anyRequest()
